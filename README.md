@@ -16,17 +16,17 @@ Run on M1 Mac (not sped up!)
 
 # Try it yourself
 
-Download the CPU quantized gpt4all model checkpoint: [gpt4all-lora-quantized.bin](https://the-eye.eu/public/AI/models/nomic-ai/gpt4all/gpt4all-lora-quantized.bin) - [[Torrent-Magnet]](https://tinyurl.com/gpt4all-lora-quantized) 
+Here's how to get started with the CPU quantized gpt4all model checkpoint:
 
+1. Download the `gpt4all-lora-quantized.bin` file from [Direct Link](https://the-eye.eu/public/AI/models/nomic-ai/gpt4all/gpt4all-lora-quantized.bin) or [[Torrent-Magnet]](https://tinyurl.com/gpt4all-lora-quantized).
+2. Clone this repository, navigate to `chat`, and place the downloaded file there.
+3. Run the appropriate command for your OS:
+   - M1 Mac/OSX: `cd chat;./gpt4all-lora-quantized-OSX-m1`
+   - Linux: `cd chat;./gpt4all-lora-quantized-linux-x86`
+   - Windows (PowerShell): `cd chat;./gpt4all-lora-quantized-win64.exe`
+   - Intel Mac/OSX: `cd chat;./gpt4all-lora-quantized-OSX-intel`
 
-Clone this repository down and place the quantized model in the `chat` directory and start chatting by running:
-
-- `cd chat;./gpt4all-lora-quantized-OSX-m1` on M1 Mac/OSX
-- `cd chat;./gpt4all-lora-quantized-linux-x86` on Linux
-- `cd chat;./gpt4all-lora-quantized-win64.exe` on Windows (PowerShell)
-- `cd chat;./gpt4all-lora-quantized-OSX-intel` on Intel Mac/OSX
-
-To compile for custom hardware, see our fork of the [Alpaca C++](https://github.com/zanussbaum/gpt4all.cpp) repo.
+For custom hardware compilation, see our [llama.cpp](https://github.com/zanussbaum/gpt4all.cpp) fork.
 
 -----------
 
@@ -41,11 +41,11 @@ Note: the full model on GPU (16GB of RAM required) performs much better in our q
 # Python Client
 ## CPU Interface
 To get running using the python client with the CPU interface, first install the [nomic client](https://github.com/nomic-ai/nomic) using `pip install nomic`
-Then, you can use the following script to interact with GPU4All:
+Then, you can use the following script to interact with GPT4All:
 ```
-from nomic import GPT4All
+from nomic.gpt4all import GPT4All
 m = GPT4All()
-m.connect()
+m.open()
 m.prompt('write me a story about a lonely computer')
 ```
 
@@ -57,7 +57,7 @@ The setup here is slightly more involved than the CPU model.
 
 Once this is done, you can run the model on GPU with a script like the following:
 ```
-from nomic import GPT4AllGPU
+from nomic.gpt4all import GPT4AllGPU
 m = GPT4AllGPU(LLAMA_PATH)
 config = {'num_beams': 2,
           'min_new_tokens': 10,
@@ -84,7 +84,7 @@ You can pass any of the [huggingface generation config params](https://huggingfa
  - <span style="color:red">(NOT STARTED)</span> Integrate GPT4All with [Atlas](https://atlas.nomic.ai) to allow for document retrieval.
    - BLOCKED by GPT4All based on GPTJ
  - <span style="color:red">(NOT STARTED)</span> Integrate GPT4All with Langchain.
- - <span style="color:red">(NOT STARTED)</span> Build easy custom training scripts to allow users to fine tune models.
+ - <span style="color:green">(IN PROGRESS)</span> Build easy custom training scripts to allow users to fine tune models.
 
 ## Long Term
  - <span style="color:red">(NOT STARTED)</span> Allow anyone to curate training data for subsequent GPT4All releases using Atlas.
@@ -99,7 +99,7 @@ Trained LoRa Weights:
 Raw Data:
 - [Training Data Without P3](https://huggingface.co/datasets/nomic-ai/gpt4all_prompt_generations)
   - Explorer: https://atlas.nomic.ai/map/gpt4all_data_clean_without_p3
-- [Full Dataset with P3](https://s3.amazonaws.com/static.nomic.ai/gpt4all/2022_03_27/gpt4all_curated_data_full_2022_03_27.tar.gz)
+- [Full Dataset with P3](https://huggingface.co/datasets/nomic-ai/gpt4all_prompt_generations_with_p3)
   - Explorer: https://atlas.nomic.ai/map/gpt4all_data_clean
 
 We are not distributing a LLaMa 7B checkpoint.
@@ -137,6 +137,10 @@ accelerate launch --dynamo_backend=inductor --num_processes=8 --num_machines=1 -
 ```bash
 python generate.py --config configs/generate/generate.yaml --prompt "Write a script to reverse a string in Python"
 ```
+
+## Need Help?
+
+Join the <a href="https://discord.gg/kvmy6dQB"> Discord </a> and ask for help in `#gpt4all-help`
 
 # Sample Generations
 
